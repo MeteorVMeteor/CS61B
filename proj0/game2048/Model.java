@@ -122,7 +122,7 @@ public class Model extends Observable {
                 if(t == null){
                     continue;
                 }
-                if(checkNeirbor(t, dir, board, max)){
+                if(checkNeirbor(i, j, dir, board, max)){
                     int row = j;
                     while(row < max){
                         row += 1;
@@ -136,6 +136,10 @@ public class Model extends Observable {
                     }
                 }
                 else{
+                    if(pointer == j){
+                        pointer--;
+                        continue;
+                    }
                     board.move(i, pointer--, t);
                 }
                 changed = true;
@@ -148,13 +152,12 @@ public class Model extends Observable {
         }
         return changed;
     }
-    public static boolean checkNeirbor(Tile t, int[] dir, Board b, int max) {
-        int row = t.row();
-        int col = t.col();
+    public static boolean checkNeirbor(int col, int row, int[] dir, Board b, int changedPoint) {
         int min = -1;
         int nowcol = col + dir[0];
         int nowrow = row + dir[1];
-        while(nowcol > min && nowrow > min && nowcol < max && nowrow < max){
+        Tile t = b.tile(col, row);
+        while(nowcol > min && nowrow > min && nowcol < b.size() && nowrow < changedPoint){
             Tile tmp = b.tile(nowcol, nowrow);
             if(tmp == null){
                 nowcol += dir[0];
@@ -244,7 +247,7 @@ public class Model extends Observable {
     public static boolean check(Tile t, Board b){
         boolean hassame = false;
         for(int i = 0; i < arr.length; i++){
-            hassame = hassame || checkNeirbor(t, arr[i], b, b.size());
+            hassame = hassame || checkNeirbor(t.col(), t.row(), arr[i], b, b.size());
         }
         return hassame;
     }
