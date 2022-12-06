@@ -230,4 +230,32 @@ public class LinkedListDequeTest {
             }
         }
     }
+
+    @Test
+    public void iteratorTest() {
+        LinkedListDeque<Integer> L = new LinkedListDeque<>();
+        int idx = 0;
+        for (int i = 0; i < 3; i++) {
+            L.addLast(i);
+        }
+        for (Integer i : L) {
+            assertEquals(i, L.get(idx++));
+        }
+    }
+
+    @Test
+    public void equalsTest() {
+        LinkedListDeque<Integer> AD1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> AD2 = new LinkedListDeque<>();
+        for (int i = 0; i < 3; i++) {
+            AD1.addLast(i);
+            AD2.addLast(i);
+        }
+        assertTrue(AD1.equals(AD2));
+        assertTrue(AD1.equals(AD1));
+        assertFalse(AD1.equals(null));
+        AD2.removeLast();
+        assertFalse(AD1.equals(AD2));
+    }
+
 }

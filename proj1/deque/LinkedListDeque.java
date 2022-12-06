@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     public class Node{
         T item;
         Node prev;
@@ -37,7 +39,52 @@ public class LinkedListDeque<T> {
         node.setNext(dummy);
         size += 1;
     }
+    @Override
+    public Iterator<T> iterator() {
+        return new LLDequeIter();
+    }
 
+    private class LLDequeIter implements Iterator<T>{
+        private int pointerIter;
+        Node tmp = dummy;
+        public LLDequeIter() {
+            pointerIter = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return size < pointerIter;
+        }
+
+        @Override
+        public T next() {
+            pointerIter++;
+            tmp = tmp.next;
+            return tmp.item;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass() || ((LinkedListDeque)o).size() != this.size()) {
+            return false;
+        }
+        Node tmp1 = this.dummy;
+        Node tmp2 = ((LinkedListDeque)o).dummy;
+        for (int i = 0; i < this.size(); i++) {
+            tmp1 = tmp1.next;
+            tmp2 = tmp2.next;
+            if (tmp1.item != tmp2.item) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public void addFirst(T item){
         Node node = new Node(item);
         node.setNext(dummy.next);
@@ -47,6 +94,7 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
+    @Override
     public void addLast(T item){
         Node node = new Node(item);
         node.setNext(dummy);
@@ -56,14 +104,12 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
-    public boolean isEmpty(){
-        return size == 0;
-    }
-
+    @Override
     public int size(){
         return size;
     }
 
+    @Override
     public void printDeque(){
         Node tmp = dummy.next;
         while(tmp != dummy){
@@ -74,6 +120,7 @@ public class LinkedListDeque<T> {
         System.out.println();
     }
 
+    @Override
     public T get(int index){
         Node pointer = dummy;
         for(int i = 0; i <= index && index < size; i++){
@@ -96,10 +143,7 @@ public class LinkedListDeque<T> {
         return getRecurHelp(index, n+1, node.next);
     }
 
-    public boolean equals(Object o){
-        return o instanceof LinkedListDeque;
-    }
-
+    @Override
     public T removeFirst(){
         Node node = dummy.next;
         dummy.next.next.setPrev(dummy);
@@ -110,6 +154,7 @@ public class LinkedListDeque<T> {
         return node.item;
     }
 
+    @Override
     public T removeLast(){
         Node node = dummy.prev;
         dummy.setPrev(dummy.prev.prev);

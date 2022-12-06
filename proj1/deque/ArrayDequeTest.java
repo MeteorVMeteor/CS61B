@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.Stopwatch;
 import org.junit.Test;
 
 import java.sql.Array;
+import java.util.Iterator;
 
 import static org.junit.Assert.*;
 
@@ -230,4 +231,32 @@ public class ArrayDequeTest {
             }
         }
     }
+
+    @Test
+    public void iteratorTest() {
+        ArrayDeque<Integer> L = new ArrayDeque<>();
+        int idx = 0;
+        for (int i = 0; i < 3; i++) {
+            L.addLast(i);
+        }
+        for (Integer i : L) {
+            assertEquals(i, L.get(idx++));
+        }
+    }
+
+    @Test
+    public void equalsTest() {
+        ArrayDeque<Integer> AD1 = new ArrayDeque<>();
+        ArrayDeque<Integer> AD2 = new ArrayDeque<>();
+        for (int i = 0; i < 3; i++) {
+            AD1.addLast(i);
+            AD2.addLast(i);
+        }
+        assertTrue(AD1.equals(AD2));
+        assertTrue(AD1.equals(AD1));
+        assertFalse(AD1.equals(null));
+        AD2.removeLast();
+        assertFalse(AD1.equals(AD2));
+    }
+
 }
