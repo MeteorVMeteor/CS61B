@@ -9,5 +9,7 @@ public class Flik {
      *  @return Whether a and b are the same */
     public static boolean isSameNumber(Integer a, Integer b) {
         return a == b;
+//        for test
+//        return a.compareTo(b) == 0;
     }
 }
